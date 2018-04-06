@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SpringBoot推荐使用logback-spring.xml来替代logback.xml来配置logback日志的原因
+logback.xml加载早于application.properties，所以如果你在logback.xml使用了变量时，而恰好这个变量是写在application.properties时，那么就会获取不到，只要改成logback-spring.xml就可以解决。
+-->
+<!--
+scan:当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
+debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
+-->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <!--
+    通过application.yml 传递参数
+    不能使用logback 自带的<property>标签
+    -->
+    <springProperty scope="context" name="logPath" source="project.log.path"/>
+    <springProperty scope="context" name="maxFileSize" source="project.log.max-file-size"/>
+    <springProperty scope="context" name="maxHistory" source="project.log.max-history"/>
+    <springProperty scope="context" name="totalSizeCap" source="project.log.total-size-cap"/>
+    <springProperty scope="context" name="level" source="project.log.level"/>
+    <springProperty scope="context" name="projectName" source="project.name"/>
+
+    <!--
+    设置上下文名称
+    每个logger都关联到logger上下文，默认上下文名称为“default”。但可以使用设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改,可以通过%contextName来打印日志上下文名称，一般来说我们不用这个属性，可有可无。
+    -->
+    <contextName>${projectName}</contextName>
+
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+    <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <property name="FILE_LOG_PATTERN" value="${FILE_LOG_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+
+    <springProfile name="test,prod">
+        <!--输出到文件-->
+        <appender name="fileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <File>${logPath}/${projectName}/${projectName}.log</File>
+            <!--滚动策略，按照时间滚动-->
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <!--归档文件的路径，定义了日志的切分后的保存路径-->
+                <FileNamePattern>${logPath}/${projectName}/archive/%d{yyyyMMdd}.%i.log</FileNamePattern>
+                <!--单个日志文件最大大小，超过则归档。单位：GB、MB、KB-->
+                <maxFileSize>${maxFileSize}</maxFileSize>
+                <!--日志文件总上限大小，到了这个值，就会删除旧的日志。单位：GB、MB、KB-->
+                <totalSizeCap>${totalSizeCap}</totalSizeCap>
+                <!--日志的保存期限-->
+                <maxHistory>${maxHistory}</maxHistory>
+            </rollingPolicy>
+
+            <encoder>
+                <pattern>${FILE_LOG_PATTERN}</pattern>
+                <charset>utf8</charset>
+            </encoder>
+        </appender>
+
+        <!--单独保存Error日志-->
+        <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!--如果只是想要 Error 级别的日志，那么需要过滤一下，默认是 info 级别的-->
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>ERROR</level>
+                <level>WARN</level>
+            </filter>
+            <File>${logPath}/${projectName}/${projectName}.error.log</File>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!--文件路径,定义了日志的切分方式——按月将日志归档到一个文件中-->
+                <FileNamePattern>${logPath}/${projectName}/archive/error.%d{yyyyMM}.log</FileNamePattern>
+            </rollingPolicy>
+            <!--日志输出编码格式化-->
+            <encoder>
+                <pattern>${FILE_LOG_PATTERN}</pattern>
+                <charset>utf8</charset>
+            </encoder>
+        </appender>
+    </springProfile>
+    <!--输出到控制台-->
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!--
+    root节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性，大小写无关。
+    可用值：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF
+    日志级别从低到高分为TRACE < DEBUG < INFO < WARN < ERROR < FATAL，即如果设置为WARN，则低于WARN的信息都不会输出。
+    -->
+    <springProfile name="dev">
+        <root level="${level}">
+            <appender-ref ref="consoleLog" />
+        </root>
+    </springProfile>
+
+    <springProfile name="test">
+        <root level="${level}">
+            <appender-ref ref="fileLog" />
+            <appender-ref ref="fileErrorLog" />
+            <appender-ref ref="consoleLog" />
+        </root>
+    </springProfile>
+
+    <springProfile name="prod">
+        <root level="${level}">
+            <appender-ref ref="fileLog" />
+            <appender-ref ref="fileErrorLog" />
+            <appender-ref ref="consoleLog" />
+        </root>
+    </springProfile>
+</configuration>

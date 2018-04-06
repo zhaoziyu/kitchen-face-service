@@ -1,0 +1,12 @@
+# Debug
+debug: false
+
+kitchen:
+  gateway:
+    json:
+      is-sort-field: true
+
+project:
+  log:
+    # 日志输出级别。TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF
+    level: INFO

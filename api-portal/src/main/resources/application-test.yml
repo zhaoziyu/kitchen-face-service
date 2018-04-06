@@ -1,0 +1,27 @@
+# Debug
+debug: true
+
+kitchen:
+  gateway:
+    json:
+      is-sort-field: true
+
+project:
+  log:
+    #@ 日志文件保存的路径
+    path: /logs
+    # 单个日志文件最大大小，超过则归档。单位：GB、MB、KB
+    max-file-size: 50MB
+    # 日志的保存期限
+    max-history: 90
+    # 日志文件总上限大小，到了这个值，就会删除旧的日志。单位：GB、MB、KB
+    total-size-cap: 1GB
+    # 日志输出级别。TRACE < DEBUG < INFO < WARN < ERROR, ALL 和 OFF
+    level: INFO
+
+server:
+  tomcat:
+    # tomcat的访问日志
+    accesslog:
+      enabled: true
+      directory: ${project.log.path}/${project.name}/tomcat

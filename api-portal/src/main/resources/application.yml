@@ -1,0 +1,152 @@
+# 注释开头有@符号的，标识此属性在项目中变化较多，需要注意，未加此标记的，通常无需改动设置
+server:
+  #@ Web容器端口
+  port: 9090
+  servlet:
+    context-path: /api-portal
+
+# 自定义工程全局参数
+project:
+  # 工程名称（会应用于日志文件名、服务注册中心显示名等）
+  name: api-portal
+  language:
+    # 默认语言（支持：zh_CN,en_US,ja_JP,zh_TW）
+    default: zh_CN
+
+dubbo:
+  application:
+    id: api-portal
+    name: api-portal
+  registry:
+    #@ dubbo服务注册中心地址
+    address: zookeeper://127.0.0.1:2181
+  protocol:
+    id: dubbo
+    name: dubbo
+
+spring:
+  profiles:
+    #@ 指定环境配置文件（dev、test、prod）
+    active: dev
+  # 国际化
+  messages:
+    # 指定messages资源文件路径，默认从classpath路径开始
+    basename: i18n/messages
+    # 设定加载的资源文件缓存失效时间，类型：Duration
+    cache-duration: 60m
+  mvc:
+    async:
+      # 设定async请求的超时时间，类型：Duration
+      # 若未设置，则以具体实现的超时时间为准，比如tomcat的servlet3的话是10秒
+      request-timeout: 5s
+    # 自定义静态资源映射（资源的访问路径），资源访问路径：http://localhost:8080/static/**.jpg 默认配置 /**
+    static-path-pattern: /static/**
+  resources:
+    # static-path-pattern要指向的路径，多个使用英文逗号隔开
+    # 默认配置 classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/ 同名资源的访问优先级顺序为：META/resources > resources > static > public
+    # classpath:/resources中的相对路径
+    # file:/var/local/images（系统的绝对路径）
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+  cache:
+    # 使用Caffeine作为本地缓存库，以支持Spring框架中的相关缓存注解，具体配置详见"com.***.portal.extension.cache"包中的类。（此处可以不配置，框架会自动扫描配置类，仅做为提示作用）
+    type: caffeine
+  servlet:
+    multipart:
+      # 单个文件的大小上限
+      max-file-size: 10MB
+      # 一次请求的总文件大小上限
+      max-request-size: 50MB
+
+logging:
+  # 日志配置文件的路径
+  config: classpath:config/logback-spring.xml
+jasypt:
+  encryptor:
+    # 配置文件属性加密的根密码
+    password: ESXlHsVk2YM7mGcHy2ccGg
+
+kitchen:
+  gateway:
+    # 响应结果返回格式相关配置
+    json:
+      # 设置属性字段的JSON序列化和解析格式。
+      # 若使用Swagger，则需要设置为驼峰或默认，否则会影响Swagger接口的返回参数导致页面解析错误
+      # CamelCase   persionId
+      # PascalCase  PersonId
+      # SnakeCase   person_id
+      # KebabCase   person-id
+      # null        默认，无命名转换策略（json输出字段名与实体类字段名一致）
+      property-naming-strategy: null
+      date-format: yyyy-MM-dd HH:mm:ss
+      charset: UTF-8
+      # 输出值为null的字段
+      is-write-map-null-value: true
+      # 将Collection类型字段的字段空值输出为
+      is-write-null-list-as-empty: true
+      # 将字符串类型字段的空值输出为空字符串
+      is-write-null-string-as-empty: true
+      # 将数值类型字段的空值输出为0
+      is-write-null-number-as-zero: true
+      # 将Boolean类型字段的空值输出为false
+      is-write-null-boolean-as-false: true
+      # 输出字段排序（JSON字段及Map内字段）
+      is-sort-field: true
+    # 业务线程池相关配置（详见com.restaurant.dinner.portal.thread.BizThreadPoolConfig）
+    biz-thread-pool:
+      is-submit-business-thread: true
+      is-block-thread: true
+      server-core-pool-size: 100
+      server-maximum-pool-size: 2147483647
+      allow-core-thread-timeout: false
+      server-queue-type: Synchronous
+      work-queue-size: 2147483647
+    access-control:
+      # 访问控制——跨域访问配置
+      cors:
+        open: true
+        mapping: "/**"
+        allow-origins: "*"
+        allow-methods: "*"
+        allow-credentials: false
+        max-age: 3600
+      #@ 访问控制——接口签名
+      sign:
+        # 是否开启接口的签名验证
+        open: false
+        # 是否开启接口的返回参数签名
+        open-response-sign: false
+        # 是否开启接口的时间戳验证
+        open-timestamp-verify: false
+        # 时间戳有效时间范围，即请求时间戳参数超过多少秒后无效（单位：秒）
+        timestamp-verify-limit: 120
+        # 是否开启接口的用户Token验证（开启接口的签名验证基础上Token验证有效）
+        open-token-verify: false
+        # 用户Token过期时间，0为永不过期（单位：秒）
+        # Token的有效期和你的项目要求有关。普通APP可以考虑不过期（或者采用心跳的方式，每次调用重新延长一次Token的过期时间），安全性要求高的Web应用可能考虑1个月，银行、金融类应的应用一般设置为分钟级别。
+        token-verify-limit: 0
+        # 是否开启Token心跳，若开启，则每次验签通过后，都会将Token的时间重置为ACCESS_CONTROL_TOKEN_VERIFY_LIMIT设置的值，维持Token的有效性。
+        token-heart-beat: true
+  # 缓存配置
+  cache:
+    # 本地缓存配置
+    local:
+      # 是否开启本地缓存服务
+      open: true
+    # Redis缓存配置
+    redis:
+      # 是否开启Redis缓存服务
+      open: false
+      # Redis服务的IP地址
+      ip: 127.0.0.1
+      # Redis服务的端口号
+      port: 6379
+      # 连接实例的最大数目，默认值为8；如果为-1，则表示不限制；如果pool已经分配了maxTotal个jedis实例，则此时pool的状态为exhausted(耗尽)；
+      max-total: 1024
+      # 控制一个pool最多有多少个状态为idle(空闲的)的jedis实例，默认值8。
+      max-idle: 256
+      # 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException；
+      max-wait-millis: 5000
+      # Redis连接的超时时间
+      connection-timeout: 5000
+      # Redis服务的密码
+      password: XsJYvyrytaOU52Kn2Vvy

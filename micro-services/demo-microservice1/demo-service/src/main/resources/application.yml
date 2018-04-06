@@ -1,0 +1,71 @@
+# 注释开头有@符号的，标识此属性在项目中变化较多，需要注意，未加此标记的，通常无需改动设置
+# 自定义工程全局参数
+project:
+  # 工程名称（会应用于日志文件名、服务注册中心显示名等）
+  name: demo-service-one
+
+dubbo:
+  application:
+    id: demo-service-one
+    name: demo-service-one
+  registry:
+    #@ dubbo服务注册中心地址
+    address: zookeeper://127.0.0.1:2181
+  protocol:
+    id: dubbo
+    name: dubbo
+    #@ 提供服务的端口号
+    port: -1
+
+spring:
+  profiles:
+    #@ 指定环境配置文件（dev、test、prod）
+    active: dev
+  # 配置多数据源——https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter#如何配置多数据源
+  datasource:
+    # JDBC配置
+    url: jdbc:mysql://127.0.0.1:3306/kitchen_db?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: zhaozy
+    driver-class-name: com.mysql.jdbc.Driver
+    # 数据库连接池配置
+    druid:
+      #@ 连接池初始化大小（第一次连接时初始化）
+      initial-size: 5
+      #@ 连接池连接最小数量
+      min-idle: 5
+      #@ 连接池连接最大数量
+      max-active: 50
+      keep-alive: true
+      # 获取连接等待超时的时间（单位：毫秒）
+      max-wait: 60000
+      # 检测需要关闭的空闲连接的间隔时间（单位：毫秒）
+      time-between-eviction-runs-millis: 60000
+      # 连接在池中最小生存的时间（单位：毫秒）
+      min-evictable-idle-time-millis: 300000
+      # 检测连接是否有效的sql
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      filter:
+        stat:
+          # 关闭统计功能
+          enabled: false
+mybatis:
+  configuration:
+    cache-enabled: true
+pagehelper:
+  # 默认值为 false，当该参数设置为 true 时，如果 pageSize=0 或者 RowBounds.limit = 0 就会查询出全部的结果（相当于没有执行分页查询，但是返回结果仍然是 Page 类型）。
+  page-size-zero: true
+  # 分页合理化参数，默认值为false。当该参数设置为 true 时，pageNum<=0 时会查询第一页，pageNum>pages（超过总数时），会查询最后一页。默认false 时，直接根据参数进行查询。
+  reasonable: true
+
+logging:
+  # 日志配置文件的路径
+  config: classpath:config/logback-spring.xml
+
+jasypt:
+  encryptor:
+    # 配置文件属性加密的密钥
+    password: ESXlHsVk2YM7mGcHy2ccGg
