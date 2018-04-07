@@ -18,7 +18,7 @@
         <!--演示依赖-->
         <dependency>
             <groupId>com.messless</groupId>
-            <artifactId>demo-service-api</artifactId>
+            <artifactId>demo-service-one-api</artifactId>
             <version>1.0.0</version>
         </dependency>
 

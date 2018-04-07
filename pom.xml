@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>api-portal</module>
-        <module>micro-services/demo-microservice1/demo-service-api</module>
-        <module>micro-services/demo-microservice1/demo-service</module>
+        <module>micro-services/demo-microservice1/demo-service-one-api</module>
+        <module>micro-services/demo-microservice1/demo-service-one</module>
     </modules>
 
     <parent>

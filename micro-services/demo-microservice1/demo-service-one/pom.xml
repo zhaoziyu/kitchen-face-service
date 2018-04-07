@@ -11,7 +11,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>demo-service</artifactId>
+    <artifactId>demo-service-one</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
@@ -19,7 +19,7 @@
         <!--演示依赖-->
         <dependency>
             <groupId>com.messless</groupId>
-            <artifactId>demo-service-api</artifactId>
+            <artifactId>demo-service-one-api</artifactId>
             <version>1.0.0</version>
         </dependency>
 
