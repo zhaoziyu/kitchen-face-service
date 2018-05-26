@@ -1,0 +1,21 @@
+# 注释开头有@符号的，标识此属性在项目中变化较多，需要注意，未加此标记的，通常无需改动设置
+project:
+  # 工程名称（会应用于日志文件名、服务注册中心显示名等）
+  name: demo-service-two
+
+dubbo:
+  application:
+    id: demo-service-two
+    name: demo-service-two
+    logger: log4j
+  registry:
+    protocol: zookeeper
+    address: 127.0.0.1:2181
+    check: false
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: -1
+    accesslog: true
+  consumer:
+    check: false

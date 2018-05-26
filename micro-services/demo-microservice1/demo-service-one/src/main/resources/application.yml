@@ -4,18 +4,37 @@ project:
   # 工程名称（会应用于日志文件名、服务注册中心显示名等）
   name: demo-service-one
 
+  # Dubbo的启动时检查
+  #Dubbo 缺省会在启动时检查依赖的服务是否可用，不可用时会抛出异常，阻止 Spring 初始化完成，以便上线时，能及早发现问题，默认 check="true"。
+  #可以通过 check="false" 关闭检查，比如，测试时，有些服务不关心，或者出现了循环依赖，必须有一方先启动。
+  #另外，如果你的 Spring 容器是懒加载的，或者通过 API 编程延迟引用服务，请关闭 check，否则服务临时不可用时，会抛出异常，拿到 null 引用，如果 check="false"，总是会返回引用，当服务恢复时，能自动连上。
 dubbo:
   application:
     id: demo-service-one
     name: demo-service-one
+    logger: log4j
   registry:
+    protocol: zookeeper
     #@ dubbo服务注册中心地址
-    address: zookeeper://127.0.0.1:2181
+    address: 127.0.0.1:2181
+    #是否向此注册中心注册服务，如果设为false，将只订阅，不注册
+    subscribe: true
+    #是否向此注册中心注册服务，如果设为false，将只订阅，不注册
+    register: true
+    # 提供者列表是否为空是否报错，如果注册订阅失败时，也允许启动，需使用此选项，将在后台定时重试。
+    check: false
   protocol:
     id: dubbo
     name: dubbo
-    #@ 提供服务的端口号
+    #@ 提供服务的端口号（-1表示随机，会从20880开始顺序增长，寻找未被占用的端口）
     port: -1
+    accesslog: true
+  consumer:
+    # 设置 check 的缺省值，如果配置中有显式的声明，不会受影响
+    check: false
+  # 强制改变所有 reference 的 check 值，就算注解中有声明，也会被覆盖。
+  #reference:
+  #  check: false
 
 spring:
   profiles:
@@ -23,7 +42,7 @@ spring:
     active: dev
   # 配置多数据源——https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter#如何配置多数据源
   datasource:
-    # JDBC配置
+    #@ JDBC配置
     url: jdbc:mysql://127.0.0.1:3306/kitchen_db?useUnicode=true&characterEncoding=utf-8
     username: root
     password: zhaozy
@@ -55,11 +74,13 @@ spring:
 mybatis:
   configuration:
     cache-enabled: true
+  mapper-locations: classpath:mapper/**.xml
+
 pagehelper:
   # 默认值为 false，当该参数设置为 true 时，如果 pageSize=0 或者 RowBounds.limit = 0 就会查询出全部的结果（相当于没有执行分页查询，但是返回结果仍然是 Page 类型）。
   page-size-zero: true
   # 分页合理化参数，默认值为false。当该参数设置为 true 时，pageNum<=0 时会查询第一页，pageNum>pages（超过总数时），会查询最后一页。默认false 时，直接根据参数进行查询。
-  reasonable: true
+  reasonable: false
 
 logging:
   # 日志配置文件的路径

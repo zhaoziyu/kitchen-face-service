@@ -1,4 +1,4 @@
-import com.restaurant.dinner.demo.service.ProviderBootstrap;
+import com.restaurant.dinner.demo.service.one.ProviderBootstrap;
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.Ignore;
 import org.junit.Test;

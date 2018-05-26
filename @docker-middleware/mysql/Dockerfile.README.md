@@ -1,4 +1,4 @@
-## 构建镜像（In Jenkins）
+## 构建镜像
 docker build -t kitchen-db:2.0 ./@docker-middleware/mysql/
 
 # 运行

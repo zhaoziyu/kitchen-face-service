@@ -22,6 +22,11 @@
             <artifactId>demo-service-one-api</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.messless</groupId>
+            <artifactId>demo-service-two-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

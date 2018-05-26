@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
     <!--TODO 数据库驱动-->
-    <classPathEntry location="/Users/zhaoziyu/Work/product/com/self/kitchen/kitchen-face/micro-services/mysql-connector-java-5.1.24.jar"/>
+    <classPathEntry location="/Users/zhaoziyu/Work/product/com/self/messless/kitchen-face-service/micro-services/mysql-connector-java-5.1.24.jar"/>
 
     <!--
         context:生成一组对象的环境
@@ -52,7 +52,7 @@
 
         </javaModelGenerator>
         <!-- mapper.xml映射文件存放位置 -->
-        <sqlMapGenerator targetProject="src/main/java" targetPackage="mybatis.generate.xml">
+        <sqlMapGenerator targetProject="src/main/java" targetPackage="mybatis.generate.mapper">
             <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
@@ -63,7 +63,7 @@
             2，MIXEDMAPPER：使用混合配置，会生成Mapper接口，并适当添加合适的Annotation，但是XML会生成在XML中；
             3，XMLMAPPER：会生成Mapper接口，接口完全依赖XML；
         -->
-        <javaClientGenerator targetProject="src/main/java" targetPackage="mybatis.generate.dao" type="ANNOTATEDMAPPER">
+        <javaClientGenerator targetProject="src/main/java" targetPackage="mybatis.generate.dao" type="MIXEDMAPPER">
             <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
             <property name="enableSubPackages" value="false"/>
             <!-- 生成类的继承接口 -->

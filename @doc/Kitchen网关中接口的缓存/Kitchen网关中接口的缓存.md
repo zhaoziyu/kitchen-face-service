@@ -343,7 +343,7 @@ Caffeine的配置属性说明：
 
 注意
 
-- expireAfterWrite和expireAfterAccess同事存在时，以expireAfterWrite为准。
+- expireAfterWrite和expireAfterAccess同时存在时，expireAfterWrite有效。
 
 - maximumSize和maximumWeight不可以同时使用
 

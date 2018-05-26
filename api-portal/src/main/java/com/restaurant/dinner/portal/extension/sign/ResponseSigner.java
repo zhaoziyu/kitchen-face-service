@@ -2,7 +2,6 @@ package com.restaurant.dinner.portal.extension.sign;
 
 import com.alibaba.fastjson.JSON;
 import com.kitchen.common.api.pojo.vo.BaseJsonVo;
-import com.restaurant.dinner.portal.constant.SignConstant;
 import com.restaurant.dinner.portal.extension.sign.rsa.KitRSASign;
 import com.restaurant.dinner.portal.extension.sign.util.SignToBeStringUtil;
 import org.aspectj.lang.ProceedingJoinPoint;

@@ -13,8 +13,8 @@ services:
       - MYSQL_ROOT_PASSWORD=123456
     restart: always
   ### 服务注册中心
-  registry-center:
-    image: zookeeper:3.4.11
+  service-registry-center:
+    image: zookeeper:3.4.12
     ports:
       - "2181:2181"
     restart: always
@@ -26,26 +26,24 @@ services:
       - "8080:8080"
     environment:
       - spring.profiles.active=prod
-      - kitchen.rpc.client.registry=192.169.119.111:2181
+      - JAVA_OPTS="-Ddubbo.registry.address=service-registry-center:2181"
     restart: always
   ### 微服务
-  microservice-demo:
-    image: kitchen.com/microservice-demo:latest
-    build: ./micro-services/demo-microservice1/demo-service/target
+  microservice-one:
+    image: kitchen.com/microservice-one:latest
+    build: ./micro-services/demo-microservice1/demo-service-one/target
     environment:
       - spring.profiles.active=prod
-      - kitchen.rpc.server.host.type=card
-      - kitchen.rpc.server.host.ip=eth0
-      - kitchen.rpc.server.port.type=fix
-      - kitchen.rpc.server.port.number=9090
-      - spring.datasource.url=jdbc:mysql://192.169.119.111:3306/kitchen_db?useUnicode=true&characterEncoding=utf-8
-      - kitchen.rpc.server.registry=192.169.119.111:2181
-      - kitchen.rpc.client.registry=192.169.119.111:2181
+      - spring.datasource.url=jdbc:mysql://kitchen-db:3306/kitchen_db?useUnicode=true&characterEncoding=utf-8
+      - spring.datasource.username=root
+      - spring.datasource.password=123456
+      - JAVA_OPTS="-Ddubbo.registry.address=service-registry-center:2181 -Ddubbo.protocol.port=-1"
     restart: always
-    logging:
-      ### 默认的日志输出驱动，设置为none则关闭日志输出（driver: "none"）
-      driver: "json-file"
-      options:
-        ### 限制docker日志文件（/var/lib/docker/containers/***-json.log）的大小和保留文件的最大个数
-        max-size: "10m"
-        max-file: "3"
+
+logging:
+  ### 默认的日志输出驱动，设置为none则关闭日志输出（driver: "none"）
+  driver: "json-file"
+  options:
+    ### 限制docker日志文件（/var/lib/docker/containers/***-json.log）的大小和保留文件的最大个数
+    max-size: "10m"
+    max-file: "3"

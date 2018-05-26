@@ -1,6 +1,6 @@
 package com.restaurant.dinner.portal.extension.sign.rsa;
 
-import com.restaurant.dinner.portal.constant.SignConstant;
+import com.restaurant.dinner.portal.extension.sign.SignConstant;
 import com.restaurant.dinner.portal.extension.sign.codec.Base64;
 import com.restaurant.dinner.portal.extension.sign.util.SignStreamUtil;
 import com.restaurant.dinner.portal.extension.sign.util.SignStringUtil;

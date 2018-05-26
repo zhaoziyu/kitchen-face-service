@@ -4,6 +4,12 @@
 # 自定义启动Banner
 http://patorjk.com/software/taag
 
+# 外部配置文件
+- 通过docker卷映射或Swarm的mount，将容器宿主机的配置文件映射到.jar的同级目录。
+- SpringBoot会自动读取与jar包同级的application.properties或application.yml，配置文件名称需要符合SpringBoot配置文件默认文件名
+- java -jar ***.jar 命令不能包含相对路径，即需要进入到jar包所在目录，执行java -jar
+- 与jar同级目录的config目录下，也将作为自动加载外部配置的挂载点
+
 # 属性配置文件（.yml）的敏感信息加密
 应用Jasypt（http://www.jasypt.org）完成属性文件的加密
 1、引入Maven依赖 - pom.xml

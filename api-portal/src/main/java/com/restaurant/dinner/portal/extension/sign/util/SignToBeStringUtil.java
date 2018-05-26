@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.restaurant.dinner.portal.constant.SignConstant;
+import com.restaurant.dinner.portal.extension.sign.SignConstant;
 
 import java.util.ArrayList;
 import java.util.List;

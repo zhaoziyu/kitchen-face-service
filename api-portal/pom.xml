@@ -49,10 +49,15 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
-        <!--Dubbo-->
+        <!--Dubbo TODO 等dubbo的springboot2.0支持版出来以后，再升级-->
         <dependency>
             <groupId>com.alibaba.boot</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+        <dependency><!--提供 Production-Ready 特性(健康检查、控制断点、外部化配置)-->
+            <groupId>com.alibaba.boot</groupId>
+            <artifactId>dubbo-spring-boot-actuator</artifactId>
             <version>0.1.0</version>
         </dependency>
         <!--

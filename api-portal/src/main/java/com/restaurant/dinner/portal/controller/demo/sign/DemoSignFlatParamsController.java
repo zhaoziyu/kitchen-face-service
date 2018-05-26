@@ -5,7 +5,7 @@ import com.kitchen.common.api.pojo.vo.JsonObjectVo;
 import com.kitchen.market.common.security.encryption.aes.KitEncryptionTextByAES;
 import com.restaurant.dinner.portal.constant.CommonReturnCode;
 import com.restaurant.dinner.portal.constant.ProjectReturnCode;
-import com.restaurant.dinner.portal.constant.SignConstant;
+import com.restaurant.dinner.portal.extension.sign.SignConstant;
 import com.restaurant.dinner.portal.controller.demo.sign.model.DemoFlatBizInfo;
 import com.restaurant.dinner.portal.controller.demo.sign.model.DemoFlatUserLoginInfo;
 import com.restaurant.dinner.portal.extension.sign.AuthTokenManager;
