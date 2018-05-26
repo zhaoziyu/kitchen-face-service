@@ -5,7 +5,6 @@ import com.alibaba.dubbo.rpc.RpcContext;
 import com.kitchen.common.api.pojo.vo.JsonObjectVo;
 import com.restaurant.dinner.portal.constant.CommonReturnCode;
 import com.restaurant.dinner.portal.thread.BizThreadPool;
-import com.restaurant.dinner.service.one.demo.api.recipe.DemoServiceOne;
 import com.restaurant.dinner.service.one.demo.api.recipe.DemoServiceOnePlus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

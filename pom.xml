@@ -44,7 +44,7 @@
         <druid.version>1.1.9</druid.version>
 
         <!--配置文件内容加密-->
-        <jasypt.version>1.18</jasypt.version>
+        <jasypt.version>2.0.0</jasypt.version>
     </properties>
 
     <!--公共依赖-->

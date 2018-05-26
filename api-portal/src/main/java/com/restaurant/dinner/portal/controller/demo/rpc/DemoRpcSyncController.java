@@ -1,7 +1,6 @@
 package com.restaurant.dinner.portal.controller.demo.rpc;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.alibaba.dubbo.rpc.RpcContext;
 import com.kitchen.common.api.pojo.vo.JsonObjectVo;
 import com.restaurant.dinner.portal.constant.CommonReturnCode;
 import com.restaurant.dinner.portal.thread.BizThreadPool;

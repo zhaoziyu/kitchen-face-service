@@ -2,7 +2,6 @@ package com.restaurant.dinner.demo.service.one.dao;
 
 import com.restaurant.dinner.service.one.demo.api.pojo.po.TbDemoData;
 import org.apache.ibatis.annotations.*;
-import org.springframework.stereotype.Repository;
 
 @Mapper
 public interface TbDemoDataMapper {
