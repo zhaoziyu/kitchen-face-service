@@ -26,7 +26,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class ApiGatewayBootstrap {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         SpringApplication app = new SpringApplication(ApiGatewayBootstrap.class);
         // 设置Spring Boot
 
@@ -40,9 +40,10 @@ public class ApiGatewayBootstrap {
                 new ApplicationEnvironmentPreparedEventListener(),//1.2
                 new ApplicationPreparedEventListener(),//1.3
                 new ContextRefreshedEventListener(),//1.4
-                new ApplicationReadyEventListener(),//1.5
-                new ContextClosedEventListener(),//2
+                new ApplicationStartedEventListener(),//1.5
+                new ApplicationReadyEventListener(),//1.6
 
+                new ContextClosedEventListener(),//2
                 new ApplicationFailedEventListener(),
                 new ContextStartedEventListener(),
                 new ContextStoppedEventListener()
