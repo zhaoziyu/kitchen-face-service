@@ -21,8 +21,8 @@ public class LocaleUtil {
 
     private static MessageSource messageSource;
     @Autowired
-    protected void setMessageSource(MessageSource ms) {
-        messageSource = ms;
+    protected void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
     }
 
     public static String message(String key) {

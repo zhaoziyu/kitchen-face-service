@@ -5,7 +5,7 @@ docker build -t kitchen-db:2.0 ./@docker-middleware/mysql/
 docker run -d \
     --publish 3306:3306 \
     --name kitchen-db \
-    --volume /opt/mysql/data:/var/lib/mysql \
+    --volume /volume-data/mysql/data:/var/lib/mysql \
     --env MYSQL_ROOT_PASSWORD="123456" \
     --restart=always \
 kitchen-db:2.0

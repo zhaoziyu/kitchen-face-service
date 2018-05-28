@@ -8,8 +8,11 @@ ARG TIME_ZONE=Asia/Shanghai
 
 #将所需文件放到容器中
 COPY init.sql docker-entrypoint-initdb.d/init.sql
+#将配置文件拷入mysql目录中
+COPY my.cnf /etc/mysql/conf.d/my.cnf
 
 #设置时区&&给执行文件增加可执行权限
 RUN /bin/cp /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime \
     && echo ${TIME_ZONE} >/etc/timezone \
-    && chmod 777 docker-entrypoint-initdb.d/init.sql
+    && chmod 777 docker-entrypoint-initdb.d/init.sql \
+    && chmod 644 /etc/mysql/conf.d/my.cnf
