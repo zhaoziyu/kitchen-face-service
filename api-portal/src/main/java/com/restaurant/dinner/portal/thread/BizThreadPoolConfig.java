@@ -53,38 +53,38 @@ public class BizThreadPoolConfig {
     public static int WORK_QUEUE_SIZE;
 
 
-    @Value("${kitchen.gateway.biz-thread-pool.is-submit-business-thread:true}")
+    @Value("${kitchen.biz-thread-pool.is-submit-business-thread:true}")
     protected void setIsSubmitBusinessThread(boolean isSubmitBusinessThread) {
         IS_SUBMIT_BUSINESS_THREAD = isSubmitBusinessThread;
     }
 
-    @Value("${kitchen.gateway.biz-thread-pool.is-block-thread:true}")
+    @Value("${kitchen.biz-thread-pool.is-block-thread:true}")
     protected void setIsBlockThread(boolean isBlockThread) {
         IS_BLOCK_THREAD = isBlockThread;
     }
 
 
-    @Value("${kitchen.gateway.biz-thread-pool.server-core-pool-size:100}")
+    @Value("${kitchen.biz-thread-pool.server-core-pool-size:100}")
     protected void setServerCorePoolSize(int serverCorePoolSize) {
         SERVER_CORE_POOL_SIZE = serverCorePoolSize;
     }
 
-    @Value("${kitchen.gateway.biz-thread-pool.server-maximum-pool-size:2147483647}")//Integer.MAX_VALUE
+    @Value("${kitchen.biz-thread-pool.server-maximum-pool-size:2147483647}")//Integer.MAX_VALUE
     protected void setServerMaximumPoolSize(int serverMaximumPoolSize) {
         SERVER_MAXIMUM_POOL_SIZE = serverMaximumPoolSize;
     }
 
-    @Value("${kitchen.gateway.biz-thread-pool.allow-core-thread-timeout:false}")
+    @Value("${kitchen.biz-thread-pool.allow-core-thread-timeout:false}")
     protected void setAllowCoreThreadTimeout(boolean allowCoreThreadTimeout) {
         ALLOW_CORE_THREAD_TIMEOUT = allowCoreThreadTimeout;
     }
 
-    @Value("${kitchen.gateway.biz-thread-pool.server-queue-type:Synchronous}")
+    @Value("${kitchen.biz-thread-pool.server-queue-type:Synchronous}")
     protected void setServerQueueType(BlockingQueueType serverQueueType) {
         SERVER_QUEUE_TYPE = serverQueueType;
     }
 
-    @Value("${kitchen.gateway.biz-thread-pool.work-queue-size:2147483647}")//Integer.MAX_VALUE
+    @Value("${kitchen.biz-thread-pool.work-queue-size:2147483647}")//Integer.MAX_VALUE
     protected void setWorkQueueSize(int workQueueSize) {
         WORK_QUEUE_SIZE = workQueueSize;
     }

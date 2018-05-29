@@ -62,31 +62,31 @@ public class SignConstant {
     public static Boolean ACCESS_CONTROL_TOKEN_HEART_BEAT;
 
 
-    @Value("${kitchen.gateway.access-control.sign.open:false}")
+    @Value("${kitchen.gateway.sign.open:false}")
     public void setAccessControlOpenSign(Boolean openSign) {
         ACCESS_CONTROL_OPEN_SIGN = openSign;
     }
-    @Value("${kitchen.gateway.access-control.sign.open-response-sign:false}")
+    @Value("${kitchen.gateway.sign.open-response-sign:false}")
     public void setAccessControlOpenReturnSign(Boolean openReturnSign) {
         ACCESS_CONTROL_OPEN_RETURN_SIGN = openReturnSign;
     }
-    @Value("${kitchen.gateway.access-control.sign.open-timestamp-verify:false}")
+    @Value("${kitchen.gateway.sign.open-timestamp-verify:false}")
     public void setAccessControlOpenTimestampVerify(Boolean openTimestampVerify) {
         ACCESS_CONTROL_OPEN_TIMESTAMP_VERIFY = openTimestampVerify;
     }
-    @Value("${kitchen.gateway.access-control.sign.timestamp-verify-limit:120}")
+    @Value("${kitchen.gateway.sign.timestamp-verify-limit:120}")
     public void setAccessControlTimestampVerifyLimit(Integer timestampVerifyLimit) {
         ACCESS_CONTROL_TIMESTAMP_VERIFY_LIMIT = timestampVerifyLimit;
     }
-    @Value("${kitchen.gateway.access-control.sign.open-token-verify:false}")
+    @Value("${kitchen.gateway.sign.open-token-verify:false}")
     public void setAccessControlOpenTokenVerify(Boolean openTokenVerify) {
         ACCESS_CONTROL_OPEN_TOKEN_VERIFY = openTokenVerify;
     }
-    @Value("${kitchen.gateway.access-control.sign.token-verify-limit:0}")
+    @Value("${kitchen.gateway.sign.token-verify-limit:0}")
     public void setAccessControlTokenVerifyLimit(Integer tokenVerifyLimit) {
         ACCESS_CONTROL_TOKEN_VERIFY_LIMIT = tokenVerifyLimit;
     }
-    @Value("${kitchen.gateway.access-control.sign.token-heart-beat:true}")
+    @Value("${kitchen.gateway.sign.token-heart-beat:true}")
     public void setAccessControlTokenHeartBeat(Boolean tokenHeartBeat) {
         ACCESS_CONTROL_TOKEN_HEART_BEAT = tokenHeartBeat;
     }

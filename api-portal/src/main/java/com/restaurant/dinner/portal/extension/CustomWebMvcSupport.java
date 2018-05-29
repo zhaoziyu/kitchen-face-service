@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.CorsRegistration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import java.nio.charset.Charset;
@@ -26,6 +27,22 @@ import java.util.List;
  */
 @Configuration
 public class CustomWebMvcSupport extends WebMvcConfigurationSupport {
+
+    //----------------------------静态资源----------------------------
+    //出现WebMvcConfigurationSupport继承类的时候，静态资源相关配置失效，需在此重新设置
+    @Value("${kitchen.gateway.resources.static-path-pattern:/**}")
+    private String staticPathPattern;
+
+    @Value("${kitchen.gateway.resources.static-locations}")
+    private String[] staticLocations;
+
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler(staticPathPattern).addResourceLocations(staticLocations);
+        super.addResourceHandlers(registry);
+    }
+    //----------------------------静态资源----------------------------
+
     //----------------------------FastJSON----------------------------
     //自定义消息转换器，替换原Jackson为FastJson
     @Value("${kitchen.gateway.json.property-naming-strategy:CamelCase}")
@@ -108,25 +125,25 @@ public class CustomWebMvcSupport extends WebMvcConfigurationSupport {
     /**
      * 是否开启CORS跨域请求
      */
-    @Value("${kitchen.gateway.access-control.cors.open:false}")
+    @Value("${kitchen.gateway.cors.open:false}")
     public boolean isOpen;
     /**
      * 允许跨域请求的路径映射
      */
-    @Value("${kitchen.gateway.access-control.cors.mapping:/**}")
+    @Value("${kitchen.gateway.cors.mapping:/**}")
     public String mapping;
     /**
      * 允许跨域请求的白名单。
      * 该项控制数据的可见范围，如果希望数据对任何人都可见，可以填写“*”。
      * 允许跨域访问的IP或域名，多个IP或域名之间用逗号隔开，设置为空则不允许任何跨域的访问。
      */
-    @Value("${kitchen.gateway.access-control.cors.allow-origins:*}")
+    @Value("${kitchen.gateway.cors.allow-origins:*}")
     public String allowedOrigins;
     /**
      * 这是对预请求当中Access-Control-Request-Method的回复，这一回复将是一个以逗号分隔的列表。
      * 尽管客户端或许只请求某一方法，但服务端仍然可以返回所有允许的方法，以便客户端将其缓存。
      */
-    @Value("${kitchen.gateway.access-control.cors.allow-methods:*}")
+    @Value("${kitchen.gateway.cors.allow-methods:*}")
     public String allowedMethods;
     /**
      * Access-Control-Allow-Credentials（可选）
@@ -135,13 +152,13 @@ public class CustomWebMvcSupport extends WebMvcConfigurationSupport {
      * 这一项与XmlHttpRequest2对象当中的withCredentials属性应保持一致，
      * 即withCredentials为true时该项也为true；withCredentials为false时，省略该项不写。
      */
-    @Value("${kitchen.gateway.access-control.cors.allow-credentials:false}")
+    @Value("${kitchen.gateway.cors.allow-credentials:false}")
     public boolean allowCredentials;
     /**
      * OPTIONS请求的缓存时间（以秒为单位）
      * 如果不设置或设置为0，则每次跨域的请求都会先发起一个OPTIONS请求，再发起真实请求
      */
-    @Value("${kitchen.gateway.access-control.cors.max-age:0}")
+    @Value("${kitchen.gateway.cors.max-age:0}")
     public Integer maxAge;
 
     /**
