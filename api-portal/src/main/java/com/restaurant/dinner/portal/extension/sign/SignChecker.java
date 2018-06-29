@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.kitchen.common.api.pojo.ro.BaseRequestObject;
 import com.kitchen.common.api.pojo.ro.BaseTokenRequestObject;
 import com.kitchen.market.common.security.encryption.single.KitEncryptionMD5;
-import com.restaurant.dinner.portal.constant.CommonReturnCode;
+import com.kitchen.common.api.constant.CommonReturnCode;
 import com.restaurant.dinner.portal.exception.sign.SignException;
 import com.restaurant.dinner.portal.extension.sign.rsa.KitRSACheck;
 import com.restaurant.dinner.portal.extension.sign.util.SignToBeStringUtil;

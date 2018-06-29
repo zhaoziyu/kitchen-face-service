@@ -1,7 +1,7 @@
 package com.restaurant.dinner.portal.controller;
 
 import com.kitchen.common.api.pojo.vo.JsonObjectVo;
-import com.restaurant.dinner.portal.constant.CommonReturnCode;
+import com.kitchen.common.api.constant.CommonReturnCode;
 import com.restaurant.dinner.portal.util.LocaleUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

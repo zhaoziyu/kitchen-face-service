@@ -9,6 +9,7 @@
         <module>micro-services/demo-microservice1/demo-service-one</module>
         <module>micro-services/demo-microservice2/demo-service-two-api</module>
         <module>micro-services/demo-microservice2/demo-service-two</module>
+        <module>api-gateway</module>
     </modules>
 
     <parent>

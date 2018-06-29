@@ -2,7 +2,7 @@ package com.restaurant.dinner.portal.controller.demo.rpc;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.kitchen.common.api.pojo.vo.JsonObjectVo;
-import com.restaurant.dinner.portal.constant.CommonReturnCode;
+import com.kitchen.common.api.constant.CommonReturnCode;
 import com.restaurant.dinner.portal.thread.BizThreadPool;
 import com.restaurant.dinner.service.one.demo.api.recipe.DemoServiceOne;
 import org.springframework.web.bind.annotation.PathVariable;

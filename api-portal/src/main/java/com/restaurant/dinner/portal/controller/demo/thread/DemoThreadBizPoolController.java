@@ -1,7 +1,7 @@
 package com.restaurant.dinner.portal.controller.demo.thread;
 
 import com.kitchen.common.api.pojo.vo.JsonObjectVo;
-import com.restaurant.dinner.portal.constant.CommonReturnCode;
+import com.kitchen.common.api.constant.CommonReturnCode;
 import com.restaurant.dinner.portal.controller.demo.thread.service.DemoThreadService;
 import com.restaurant.dinner.portal.thread.BizThreadPool;
 import org.springframework.beans.factory.annotation.Autowired;

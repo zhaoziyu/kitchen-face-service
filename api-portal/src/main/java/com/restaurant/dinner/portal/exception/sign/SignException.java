@@ -1,6 +1,6 @@
 package com.restaurant.dinner.portal.exception.sign;
 
-import com.restaurant.dinner.portal.constant.CommonReturnCode;
+import com.kitchen.common.api.constant.CommonReturnCode;
 
 /**
  * 签名异常

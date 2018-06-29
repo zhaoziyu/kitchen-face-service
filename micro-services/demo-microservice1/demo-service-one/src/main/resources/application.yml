@@ -43,7 +43,7 @@ spring:
   # 配置多数据源——https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter#如何配置多数据源
   datasource:
     #@ JDBC配置
-    url: jdbc:mysql://127.0.0.1:3306/kitchen_db?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://127.0.0.1:3306/kitchen_db?useUnicode=true&characterEncoding=utf-8&verifyServerCertificate=false&useSSL=false
     username: root
     password: zhaozy
     driver-class-name: com.mysql.jdbc.Driver
@@ -51,8 +51,6 @@ spring:
     druid:
       #@ 连接池初始化大小（第一次连接时初始化）
       initial-size: 5
-      #@ 连接池连接最小数量
-      min-idle: 5
       #@ 连接池连接最大数量
       max-active: 50
       keep-alive: true

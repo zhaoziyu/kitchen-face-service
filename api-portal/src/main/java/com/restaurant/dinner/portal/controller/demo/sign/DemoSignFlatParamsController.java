@@ -3,7 +3,7 @@ package com.restaurant.dinner.portal.controller.demo.sign;
 import com.kitchen.common.api.annotation.SignVerify;
 import com.kitchen.common.api.pojo.vo.JsonObjectVo;
 import com.kitchen.market.common.security.encryption.aes.KitEncryptionTextByAES;
-import com.restaurant.dinner.portal.constant.CommonReturnCode;
+import com.kitchen.common.api.constant.CommonReturnCode;
 import com.restaurant.dinner.portal.constant.ProjectReturnCode;
 import com.restaurant.dinner.portal.controller.demo.sign.model.DemoFlatBizInfo;
 import com.restaurant.dinner.portal.controller.demo.sign.model.DemoFlatUserLoginInfo;
