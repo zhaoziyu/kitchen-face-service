@@ -33,12 +33,4 @@ public class ProviderBootstrap {
         app.run(args);
     }
 
-    /**
-     * 维持程序运行
-     */
-    @Scheduled(initialDelay = 2000, fixedRate = 300000)
-    private void heartbeat() {
-        logger.info("维持心跳");
-    }
-
 }

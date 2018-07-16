@@ -2,7 +2,7 @@ package com.restaurant.dinner.portal.exception;
 
 import com.kitchen.common.api.constant.CommonReturnCode;
 import com.kitchen.common.api.pojo.vo.JsonObjectVo;
-import com.restaurant.dinner.portal.exception.sign.SignException;
+import com.restaurant.dinner.portal.extension.sign.exception.SignException;
 import com.restaurant.dinner.portal.util.LoggerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.restaurant.dinner.portal.exception.sign;
+package com.restaurant.dinner.portal.extension.sign.exception;
 
 import com.kitchen.common.api.constant.CommonReturnCode;
 
