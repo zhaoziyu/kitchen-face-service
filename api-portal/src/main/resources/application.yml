@@ -71,6 +71,9 @@ spring:
       max-file-size: 10MB
       # 一次请求的总文件大小上限
       max-request-size: 50MB
+  redis:
+    host: 127.0.0.1
+    port: 6379
 
 logging:
   # 日志配置文件的路径

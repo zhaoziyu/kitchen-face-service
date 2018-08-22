@@ -259,9 +259,9 @@ public class Base64 {
             //log.debug( "k4   = " + (k<<4) );
             //log.debug(  "vak  = " + (val2 | (k<<4)) );
             encodedData[encodedIndex + 1] =
-                    lookUpBase64Alphabet[val2 | (k << 4)];
+                    lookUpBase64Alphabet[(val2 & 0xff) | (k << 4)];
             encodedData[encodedIndex + 2] =
-                    lookUpBase64Alphabet[(l << 2) | val3];
+                    lookUpBase64Alphabet[(l << 2) | (val3 & 0xff)];
             encodedData[encodedIndex + 3] = lookUpBase64Alphabet[b3 & 0x3f];
 
             encodedIndex += 4;
@@ -313,7 +313,7 @@ public class Base64 {
 
             encodedData[encodedIndex] = lookUpBase64Alphabet[val1];
             encodedData[encodedIndex + 1] =
-                    lookUpBase64Alphabet[val2 | (k << 4)];
+                    lookUpBase64Alphabet[(val2 & 0xff) | (k << 4)];
             encodedData[encodedIndex + 2] = lookUpBase64Alphabet[l << 2];
             encodedData[encodedIndex + 3] = PAD;
         }
@@ -384,7 +384,7 @@ public class Base64 {
                 decodedData[encodedIndex] = (byte) (b1 << 2 | b2 >> 4);
                 decodedData[encodedIndex + 1] =
                         (byte) (((b2 & 0xf) << 4) | ((b3 >> 2) & 0xf));
-                decodedData[encodedIndex + 2] = (byte) (b3 << 6 | b4);
+                decodedData[encodedIndex + 2] = (byte) (b3 << 6 | (b4 & 0xff));
             } else if (marker0 == PAD) {
                 //Two PAD e.g. 3c[Pad][Pad]
                 decodedData[encodedIndex] = (byte) (b1 << 2 | b2 >> 4);

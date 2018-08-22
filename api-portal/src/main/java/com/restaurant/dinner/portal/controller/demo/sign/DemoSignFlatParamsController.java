@@ -4,15 +4,19 @@ import com.kitchen.common.api.annotation.SignVerify;
 import com.kitchen.common.api.pojo.vo.JsonObjectVo;
 import com.kitchen.market.common.security.encryption.aes.KitEncryptionTextByAES;
 import com.kitchen.common.api.constant.CommonReturnCode;
+import com.kitchen.market.common.security.encryption.rsa.KitEncryptionTextByRSA;
 import com.restaurant.dinner.portal.constant.ProjectReturnCode;
 import com.restaurant.dinner.portal.controller.demo.sign.model.DemoFlatBizInfo;
 import com.restaurant.dinner.portal.controller.demo.sign.model.DemoFlatUserLoginInfo;
 import com.restaurant.dinner.portal.extension.sign.AuthTokenManager;
 import com.restaurant.dinner.portal.extension.sign.SecretKeyManager;
 import com.restaurant.dinner.portal.extension.sign.SignConstant;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 赵梓彧 - kitchen_dev@163.com
@@ -23,6 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoSignFlatParamsController {
     private static final String TRUE_PASSWORD = "zhaozy";
 
+    @Autowired
+    private AuthTokenManager authTokenManager;
+
     @SignVerify
     @RequestMapping(value = "/login")
     @ResponseBody
@@ -32,11 +39,8 @@ public class DemoSignFlatParamsController {
         String deviceId = params.getDeviceId();
         String encryptPassword = params.getEncryptPassword();
 
-        String appSecretKey = SecretKeyManager.getAppSecretKey(params.getAppId());
-
-        // 使用应用密钥解密password
-        String password = KitEncryptionTextByAES.decryptByBase64(encryptPassword, appSecretKey);
-
+        // 使用平台私钥解密password
+        String password = KitEncryptionTextByRSA.decryptByPrivateKey(encryptPassword, SecretKeyManager.SERVER_PRIVATE_KEY_PKCS8);
         // 处理认证业务逻辑
         if (!password.equals(TRUE_PASSWORD)) {
             // 认证失败
@@ -52,21 +56,22 @@ public class DemoSignFlatParamsController {
              * 若只允许一个用户同时在一个终端中登录，则可将Token的存储Key限制为Profix_userId，并调整此处流程，在每次登录成功后，都生成新的Token
              */
             String tokenKey = AuthTokenManager.generateTokenKey(username, deviceId);
-            String token = AuthTokenManager.getToken(tokenKey);
+            String token = authTokenManager.getToken(tokenKey);
             // token不存在或已过期
             if (token == null || token.isEmpty()) {
                 // 生成新的Token
                 token = AuthTokenManager.generateNewToken(username);
                 // 存储Key
                 if (SignConstant.ACCESS_CONTROL_TOKEN_VERIFY_LIMIT > 0) {
-                    AuthTokenManager.storageToken(tokenKey, token, SignConstant.ACCESS_CONTROL_TOKEN_VERIFY_LIMIT);
+                    authTokenManager.storageToken(tokenKey, token, SignConstant.ACCESS_CONTROL_TOKEN_VERIFY_LIMIT, TimeUnit.SECONDS);
                 } else {
-                    AuthTokenManager.storageToken(tokenKey, token);
+                    authTokenManager.storageToken(tokenKey, token);
                 }
             }
 
             // 使用应用公钥加密Token
-            encryptToken = KitEncryptionTextByAES.encryptToBase64(token, appSecretKey);
+            String appPublicKey = SecretKeyManager.getAppPublicKey(params.getAppId());
+            encryptToken = KitEncryptionTextByRSA.encryptByPublicKey(token, appPublicKey);
         }
 
         result.setSuccess(true);

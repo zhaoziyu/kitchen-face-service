@@ -11,7 +11,10 @@ import com.restaurant.dinner.portal.controller.demo.sign.model.DemoUserLoginInfo
 import com.restaurant.dinner.portal.extension.sign.AuthTokenManager;
 import com.restaurant.dinner.portal.extension.sign.SecretKeyManager;
 import com.restaurant.dinner.portal.extension.sign.SignConstant;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 赵梓彧 - kitchen_dev@163.com
@@ -22,6 +25,9 @@ import org.springframework.web.bind.annotation.*;
 public class DemoSignController {
 
     private static final String TRUE_PASSWORD = "zhaozy";
+
+    @Autowired
+    private AuthTokenManager authTokenManager;
 
     /**
      * 登录获取Token
@@ -56,16 +62,16 @@ public class DemoSignController {
              * 若只允许一个用户同时在一个终端中登录，则可将Token的存储Key限制为Profix_userId，并调整此处流程，在每次登录成功后，都生成新的Token
              */
             String tokenKey = AuthTokenManager.generateTokenKey(username, deviceId);
-            String token = AuthTokenManager.getToken(tokenKey);
+            String token = authTokenManager.getToken(tokenKey);
             // token不存在或已过期
             if (token == null || token.isEmpty()) {
                 // 生成新的Token
                 token = AuthTokenManager.generateNewToken(username);
                 // 存储Key
                 if (SignConstant.ACCESS_CONTROL_TOKEN_VERIFY_LIMIT > 0) {
-                    AuthTokenManager.storageToken(tokenKey, token, SignConstant.ACCESS_CONTROL_TOKEN_VERIFY_LIMIT);
+                    authTokenManager.storageToken(tokenKey, token, SignConstant.ACCESS_CONTROL_TOKEN_VERIFY_LIMIT, TimeUnit.SECONDS);
                 } else {
-                    AuthTokenManager.storageToken(tokenKey, token);
+                    authTokenManager.storageToken(tokenKey, token);
                 }
             }
 

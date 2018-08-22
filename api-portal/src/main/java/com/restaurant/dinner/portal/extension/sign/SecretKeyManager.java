@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class SecretKeyManager {
 
-    //-------------------------平台密钥RSA-------------------------
+    //-------------------------平台密钥-------------------------
     // 平台私钥（原格式）
     public final static String SERVER_PRIVATE_KEY = "";
     // 平台私钥（PKCS8格式）
@@ -25,26 +25,21 @@ public class SecretKeyManager {
     public final static String SERVER_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDK7NiPMXg4tX1ZcbpcLFBi2/q7uV4hVO8W0d01g7eAqS1lDmdtZANVUT/QPe6g0FLRZE2v5i7ThWNEVxFDeqNlaYX54MEIRY6DZLejmhqnrSLXdDlbg8308A1GToHYG+hdJ/aZWxRoDNPM+AmyQwHqn5nAS6+x3jIT5/wsUiyOKwIDAQAB";
 
     //-------------------------应用密钥-------------------------
-    // 本地密钥缓存RSA
+    // 本地RSA密钥缓存
     private static Map<String, String> DEVELOPER_PUBLIC_KEY = new ConcurrentHashMap<>();
-    // 对称密钥，MD5方式的签名算法，终端与服务端使用相同的密钥对请求参数进行签名
-    private static Map<String, String> APP_SECRET_KEY = new ConcurrentHashMap();
 
     // TODO 演示密钥 实际项目中可去除
     static {
         // 开发者申请的应用标识
         String appId = "0241BDCE04E94DE9B20C9A5455D930B5";
-        //-------------------------方式一：非对称密钥初始化-------------------------
+
+        // 非对称密钥初始化
         // 开发者申请的应用公钥
         String appPublicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD2/anmgK6y/x6syoXqM9S0joNQQ8CT/S4z5GEFLlWBZImJl/PHcK3052EjiH1BBxD05IGlRiiwXDVZUwKGb1byv2lT2/KLPSOE1MRbwuEMvqhr+RehaiRYwSK/qJT+Ct0iiifC3flPb09lXMbOjwvT6Ab8vWc5+Qoe7ac+RXCkgQIDAQAB";
         DEVELOPER_PUBLIC_KEY.put(appId, appPublicKey);
         // 开发者的应用私钥（仅为演示使用，系统后台不对应用私钥进行保存）
         String appPrivateKey = "MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAPb9qeaArrL/HqzKheoz1LSOg1BDwJP9LjPkYQUuVYFkiYmX88dwrfTnYSOIfUEHEPTkgaVGKLBcNVlTAoZvVvK/aVPb8os9I4TUxFvC4Qy+qGv5F6FqJFjBIr+olP4K3SKKJ8Ld+U9vT2Vcxs6PC9PoBvy9Zzn5Ch7tpz5FcKSBAgMBAAECgYEAnI2EV3pRQVu70cI8x4o61IdQbFvFgQgFdRbY+DO6Nt3G39PUzSF64bSXObKV0dXsxYzhMCUcPUz0871N6HBCJzSt9iG+cpGS8X13AIa/uQ9/hFMn0BPyDOvdsL+/kv7Ahq2zHAMTmbJySMO7WCgMzd5O90KPFoJAGNLVXAtz+sECQQD83/bKI68XiepErLMzVIuOVt/WzvrcGOt6z0v1zthRHKdt6+nuhM/jNV1sDeteimgdT77j65qUcjcNMcrxDUUdAkEA+gsViMtoKgDSsMbKhNlLIlAxU/qvNXXwLx0E1Y3zcq+o/yJ4lgYbR3+MZuw8bfqkfparBOdERlrzH8xaG1IztQJAJeECncr0mmkNT5YzDbhXY03+H7ZHe5q8A1xz+3EtlBDfv6Z8Fz+LyHQg92OqYzIGYIWmiYusTxpAxtgzlyIuvQJBAO3AGlK+7iV6MNuruacGIh3XWH/8jhpsMNvrYMxaNBBpnGwz76re1ZNvYSYAHBmKyFwhkS2RZObs1d33ZfoyeD0CQQDzOP5DW/4EvbWc65gEzOnzVc14/7p6MRSRR/lfUYiU1zY1RTgzKylEFee+z/Jqd0IOOpP5dkFdLxHMbrgPZ63K";
-        //-------------------------方式一：非对称密钥初始化-------------------------
 
-        //-------------------------方式二：对称密钥初始化---------------------------
-        APP_SECRET_KEY.put(appId, "kitchen_app_secret_key");
-        //-------------------------方式二：对称密钥初始化---------------------------
     }
 
     /**
@@ -54,60 +49,6 @@ public class SecretKeyManager {
      * @return 开发者申请的应用公钥
      */
     public static String getAppPublicKey(String appId) {
-        if (appId == null || appId.isEmpty()) {
-            return null;
-        }
-
-        String publicKey = DEVELOPER_PUBLIC_KEY.get(appId);
-        if (publicKey == null || publicKey.isEmpty()) {
-            // 从用户公钥中心查询
-            publicKey = getAppPublicKeyFromCA(appId);
-            if (publicKey != null && !publicKey.isEmpty()) {
-                // 将用户公钥缓存至本地
-                DEVELOPER_PUBLIC_KEY.put(appId, publicKey);
-            }
-        }
-
-        return publicKey;
-    }
-    /**
-     * 从密钥中心查询用户的应用公钥
-     *
-     * @param appId 开发者申请的应用标识
-     * @return 开发者申请的应用公钥
-     */
-    private static String getAppPublicKeyFromCA(String appId) {
-        // TODO 从密钥中心查询用户的应用公钥
-        return null;
-    }
-
-    /**
-     * 获取指定应用的密钥（对称密钥）
-     * @param appId
-     * @return
-     */
-    public static String getAppSecretKey(String appId) {
-        if (appId == null || appId.isEmpty()) {
-            return null;
-        }
-        String secretKey = APP_SECRET_KEY.get(appId);
-        if (secretKey == null || secretKey.isEmpty()) {
-            //从应用密钥中心查询
-            secretKey = getAppSecretKeyFromCA();
-            if (secretKey != null || !secretKey.isEmpty()) {
-                // 将用户的应用密钥缓存至本地
-                APP_SECRET_KEY.put(appId, secretKey);
-            }
-        }
-
-        return secretKey;
-    }
-    /**
-     * 从密钥中心查询用户指定应用的密钥（对称密钥）
-     * @return
-     */
-    private static String getAppSecretKeyFromCA() {
-        // TODO 从密钥中心查询用户的应用密钥
-        return null;
+        return DEVELOPER_PUBLIC_KEY.get(appId);
     }
 }

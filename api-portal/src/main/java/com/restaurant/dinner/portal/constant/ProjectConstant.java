@@ -21,6 +21,11 @@ public class ProjectConstant {
         GLOBAL_LANGUAGE_DEFAULT = globalLanguageDefault;
     }
 
+    /**
+     * 用户认证令牌的缓存Key前缀
+     */
+    public static final String CACHE_KEY_PREFIX_GATEWAY_AUTH_USER_TOKEN__ = "gateway_auth_user_token__";
+
 
     //--------------------------------------------------------------------------------
 

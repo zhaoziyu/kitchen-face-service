@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class SignConstant {
     // 签名涉及的JSON字段名称
-    public static final String FIELD_SIGN_ID = "sign_id";
-    public static final String FIELD_SIGN_TYPE = "sign_type";
+    public static final String FIELD_APP_ID = "appId";
+    public static final String FIELD_SIGN_TYPE = "signType";
     public static final String FIELD_SIGN = "sign";
     public static final String FIELD_TIMESTAMP = "timestamp";
 

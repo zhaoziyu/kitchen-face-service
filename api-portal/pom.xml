@@ -33,11 +33,6 @@
             <artifactId>kitchen-market</artifactId>
             <version>1.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.messless</groupId>
-            <artifactId>kitchen-cache</artifactId>
-            <version>1.0.0</version>
-        </dependency>
 
         <!--SpringBoot-->
         <dependency>
@@ -47,6 +42,10 @@
         <dependency><!--开启AOP-->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
         <dependency>

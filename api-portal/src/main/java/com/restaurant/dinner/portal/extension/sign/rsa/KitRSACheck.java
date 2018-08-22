@@ -20,6 +20,8 @@ import java.security.spec.X509EncodedKeySpec;
  */
 public class KitRSACheck {
     public static boolean rsaCheck(String content, String sign, String publicKey, String charset, String signType) throws Exception {
+        // 防止前端传来的Base64编码的字符串加号被替换成了空格
+        sign = sign.replace(" ", "+");
 
         if (SignConstant.SIGN_TYPE_RSA.equals(signType)) {
             return rsaCheckContent(content, sign, publicKey, charset);
