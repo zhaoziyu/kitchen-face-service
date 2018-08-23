@@ -145,7 +145,7 @@ kitchen:
       open-timestamp-verify: false
       # 时间戳有效时间范围，即请求时间戳参数超过多少秒后无效（单位：秒）
       timestamp-verify-limit: 120
-      # 是否开启接口的用户Token验证（开启接口的签名验证基础上Token验证有效）
+      # 是否开启接口的用户Token验证（若开启，则在登录认证时，生成用户认证Token，并返回至终端）
       open-token-verify: false
       # 用户Token过期时间，0为永不过期（单位：秒）
       # Token的有效期和你的项目要求有关。普通APP可以考虑不过期（或者采用心跳的方式，每次调用重新延长一次Token的过期时间），安全性要求高的Web应用可能考虑1个月，银行、金融类应的应用一般设置为分钟级别。

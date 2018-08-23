@@ -33,7 +33,7 @@ public class SignConstant {
     /**
      * 是否开启接口的签名验证
      */
-    public static Boolean ACCESS_CONTROL_OPEN_SIGN;
+    public static Boolean ACCESS_CONTROL_OPEN_SIGN_VERIFY;
     /**
      * 是否开启接口的返回参数签名
      */
@@ -62,9 +62,9 @@ public class SignConstant {
     public static Boolean ACCESS_CONTROL_TOKEN_HEART_BEAT;
 
 
-    @Value("${kitchen.gateway.sign.open:false}")
-    public void setAccessControlOpenSign(Boolean openSign) {
-        ACCESS_CONTROL_OPEN_SIGN = openSign;
+    @Value("${kitchen.gateway.sign.open-verify:false}")
+    public void setAccessControlOpenSignVerify(Boolean openSignVerify) {
+        ACCESS_CONTROL_OPEN_SIGN_VERIFY = openSignVerify;
     }
     @Value("${kitchen.gateway.sign.open-response-sign:false}")
     public void setAccessControlOpenReturnSign(Boolean openReturnSign) {

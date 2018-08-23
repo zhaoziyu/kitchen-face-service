@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,10 +59,11 @@ public class SignChecker {
         long startTime = System.currentTimeMillis();
 
         // 是否开启接口请求验签功能
-        if (!SignConstant.ACCESS_CONTROL_OPEN_SIGN) {
+        if (!SignConstant.ACCESS_CONTROL_OPEN_SIGN_VERIFY) {
             return;
         }
 
+        // 获取Controller方法参数
         Object[] args = joinPoint.getArgs();
 
         BaseTokenRequestObject baseTokenRequestObject = null;
@@ -88,8 +90,8 @@ public class SignChecker {
         String sign = baseRequestObject.getSign();
         String timestamp = baseRequestObject.getTimestamp();
         // 验证请求参数是否正确（包含验签所需参数）
-        if (appId == null || appId.isEmpty() || signType == null || signType.isEmpty()
-                || sign == null || sign.isEmpty() || timestamp == null || timestamp.isEmpty()) {
+        if (StringUtils.isEmpty(appId) || StringUtils.isEmpty(signType)
+                || StringUtils.isEmpty(sign) || StringUtils.isEmpty(timestamp)) {
             // 签名验证失败（缺少签名参数）
             throw new SignException(CommonReturnCode.GATEWAY_SIGN_PARAMS_ABSENT);
         }
@@ -105,14 +107,14 @@ public class SignChecker {
         if (baseTokenRequestObject != null) {
             String userId = baseTokenRequestObject.getUserId();
             String deviceId = baseTokenRequestObject.getDeviceId();
-            if (userId == null || userId.isEmpty()) {
+            if (StringUtils.isEmpty(userId)) {
                 // 签名验证失败（缺少签名参数）
                 throw new SignException(CommonReturnCode.GATEWAY_SIGN_PARAMS_ABSENT);
             }
             authTokenKey = AuthTokenManager.generateTokenKey(userId, deviceId);
             authToken = authTokenManager.getToken(authTokenKey);
             // 判断是否存在Token
-            if (authToken == null || authToken.isEmpty()) {
+            if (StringUtils.isEmpty(authToken)) {
                 // 签名验证失败（token不存在或已过期）
                 throw new SignException(CommonReturnCode.GATEWAY_TOKEN_ABSENT);
             }
@@ -173,7 +175,7 @@ public class SignChecker {
     private void verifyRSASign(String appId, String signType, String sign, String toBeSignedString) throws Exception {
         // 从缓存中获取发起请求方的应用公钥
         String appPublicKey = secretKeyManager.getAppPublicKey(appId);
-        if (appPublicKey == null || appPublicKey.isEmpty()) {
+        if (StringUtils.isEmpty(appPublicKey)) {
             // 签名验证失败（未找到匹配公钥）
             throw new SignException(CommonReturnCode.GATEWAY_SIGN_PUBLIC_KEY_ABSENT);
         }
@@ -214,7 +216,7 @@ public class SignChecker {
      * @throws ParseException
      */
     public static void verifyTimestamp(Long timestamp) throws SignException {
-        if (timestamp == null) {
+        if (StringUtils.isEmpty(timestamp)) {
             // 签名验证失败（缺少签名参数）
             throw new SignException(CommonReturnCode.GATEWAY_SIGN_PARAMS_ABSENT);
         }
